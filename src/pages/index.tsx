@@ -1,9 +1,11 @@
 import Head from 'next/head';
-import { Inter } from 'next/font/google';
-
-const inter = Inter({ subsets: ['latin'] });
+import { useThemeEffect } from '@/lib/hooks/useThemeEffect';
+import { useToggleTheme } from '@/lib/hooks/useToggleTheme';
 
 export default function Home() {
+  const [nowTheme, toggleTheme] = useToggleTheme();
+  useThemeEffect();
+
   return (
     <>
       <Head>
@@ -14,6 +16,7 @@ export default function Home() {
       </Head>
       <main>
         <h1>Hello, Asside</h1>
+        <button onClick={toggleTheme}>다크모드</button>
       </main>
     </>
   );
