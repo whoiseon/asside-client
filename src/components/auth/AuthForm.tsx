@@ -3,6 +3,8 @@ import LabelInput from '@/components/system/LabelInput';
 import { themedPalette } from '@/styles/palette';
 import Button from '@/components/system/Button';
 import QuestionLink from '@/components/auth/QuestionLink';
+import CheckBox from '@/components/system/CheckBox';
+import { useState } from 'react';
 
 interface Props {
   mode: 'login' | 'signup';
@@ -32,6 +34,8 @@ const modeDescriptions = {
 };
 
 function AuthForm({ mode }: Props) {
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
   const {
     welcomeText,
     usernamePlaceholder,
@@ -42,6 +46,11 @@ function AuthForm({ mode }: Props) {
     actionName,
     actionLink,
   } = modeDescriptions[mode];
+
+  const onChangeShowPassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   return (
     <Block>
       <Welcome>{welcomeText}</Welcome>
@@ -61,10 +70,18 @@ function AuthForm({ mode }: Props) {
           )}
           <LabelInput
             label="비밀번호"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             placeholder={passwordPlaceholder}
           />
         </InputGroup>
+        <CheckGroup>
+          <CheckBox
+            label="비밀번호를 표시할게요"
+            checked={showPassword}
+            onChange={onChangeShowPassword}
+            id="show-password"
+          />
+        </CheckGroup>
         <ActionsBox>
           <Button layout="fullWidth" variant="primary" type="submit">
             {buttonText}
@@ -98,13 +115,18 @@ const Welcome = styled.h1`
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 16px;
 `;
 
 const InputGroup = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+`;
+
+const CheckGroup = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const ActionsBox = styled.div`

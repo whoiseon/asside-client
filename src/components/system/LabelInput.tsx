@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 import Input, { type Props as InputProps } from '@/components/system/Input';
 import { themedPalette } from '@/styles/palette';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import CheckBox from '@/components/system/CheckBox';
 
 interface Props extends InputProps {
   label: string;
@@ -9,9 +10,11 @@ interface Props extends InputProps {
 
 function LabelInput({ label, ...rest }: Props) {
   const [focused, setFocused] = useState<boolean>(false);
+
   const onFocus = () => {
     setFocused(true);
   };
+
   const onBlur = () => {
     setFocused(false);
   };
