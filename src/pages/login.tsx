@@ -2,10 +2,11 @@ import Head from 'next/head';
 import AuthForm from '@/components/auth/AuthForm';
 import BasicLayout from '@/components/layouts/BasicLayout';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { logIn } from '@/lib/apis/auth';
 import { useRouter } from 'next/router';
 import { SignUpParams } from '@/lib/apis/types';
+import { GetServerSideProps } from 'next';
 
 function Login() {
   const router = useRouter();
@@ -18,9 +19,8 @@ function Login() {
       setLoginError('');
     },
     onSuccess: () => {
-      queryClient.refetchQueries(['me']).then(() => {
-        router.push('/');
-      });
+      queryClient.refetchQueries(['me']);
+      router.push('/');
     },
     onError: (e: any) => {
       const error = e.response?.data;
@@ -31,6 +31,7 @@ function Login() {
   const onSubmit = useCallback(
     async ({ email, password }: SignUpParams) => {
       if (!email || !password) return;
+      console.log(email, password);
       mutate({ email, password });
     },
     [mutate],

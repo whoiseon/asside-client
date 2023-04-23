@@ -1,10 +1,11 @@
 import Head from 'next/head';
 import AuthForm from '@/components/auth/AuthForm';
 import BasicLayout from '@/components/layouts/BasicLayout';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useCallback, useEffect, useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { useCallback, useState } from 'react';
 import { signUp } from '@/lib/apis/auth';
 import { SignUpParams } from '@/lib/apis/types';
+import { GetServerSideProps } from 'next';
 
 function SignUp() {
   const [isSignedUp, setIsSignedUp] = useState<boolean>(false);
@@ -63,5 +64,21 @@ function SignUp() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const { cookies } = req;
+  if (cookies.access_token) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/',
+      },
+      props: {},
+    };
+  }
+  return {
+    props: {},
+  };
+};
 
 export default SignUp;

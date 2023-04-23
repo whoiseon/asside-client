@@ -4,12 +4,17 @@ import { themedPalette } from '@/styles/palette';
 import { RegisterOptions } from 'react-hook-form';
 
 export interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
+  mode?: 'default' | 'search';
   register?: any;
   option?: RegisterOptions;
   errors?: any;
 }
 
-function Input({ errors, register, option, ...rest }: Props) {
+function Input({ mode = 'default', errors, register, option, ...rest }: Props) {
+  if (mode === 'search') {
+    return <StyledSearchInput {...rest} />;
+  }
+
   if (register) {
     return (
       <>
@@ -32,6 +37,7 @@ const StyledInput = styled.input`
   padding: 0 12px;
   font-size: 16px;
   outline: none;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
 
   &:focus {
     border: 1px solid ${themedPalette.primary1};
@@ -45,6 +51,14 @@ const StyledInput = styled.input`
     background-color: ${themedPalette.bg_page};
     color: ${themedPalette.text4};
   }
+`;
+
+const StyledSearchInput = styled(StyledInput)`
+  height: 40px;
+  border: 1px solid ${themedPalette.border3};
+  border-radius: 4px;
+  background-color: ${themedPalette.bg_element2};
+  color: ${themedPalette.text1};
 `;
 
 const ErrorMessage = styled.p`

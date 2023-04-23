@@ -5,6 +5,9 @@ import React from 'react';
 import HeaderMenuButton from '@/components/base/HeaderMenuButton';
 import HeaderBackButton from '@/components/base/HeaderBackButton';
 import { useGoBack } from '@/lib/hooks/useGoback';
+import Portal from '@/components/system/Portal';
+import MobileMenu from '@/components/system/MobileMenu';
+import useToggle from '@/lib/hooks/useToggle';
 
 interface Props {
   mode?: 'default' | 'onlyBack';
@@ -18,6 +21,7 @@ function Header({
   headerLeft = <Logo />,
   hasMenu = true,
 }: Props) {
+  const [menuOpen, onToggleMenu] = useToggle(false);
   const goBack = useGoBack();
 
   if (mode === 'onlyBack') {
@@ -33,14 +37,15 @@ function Header({
       <Left>{headerLeft}</Left>
       {hasMenu && (
         <Right>
-          <HeaderMenuButton />
+          <HeaderMenuButton onClick={onToggleMenu} />
         </Right>
       )}
+      {menuOpen && <MobileMenu />}
     </Block>
   );
 }
 
-const Block = styled.header`
+const Block = styled.nav`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -54,7 +59,7 @@ const Block = styled.header`
   }
 `;
 
-const BackBlock = styled.header`
+const BackBlock = styled.nav`
   display: flex;
   align-items: center;
   height: 60px;
