@@ -1,6 +1,8 @@
 import Head from 'next/head';
 import { useThemeEffect } from '@/lib/hooks/useThemeEffect';
 import { useToggleTheme } from '@/lib/hooks/useToggleTheme';
+import Header from '@/components/base/Header';
+import BasicLayout from '@/components/layouts/BasicLayout';
 
 export default function Home() {
   const [nowTheme, toggleTheme] = useToggleTheme();
@@ -14,10 +16,10 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
+      <BasicLayout>
         <h1>Hello, Asside</h1>
         <button onClick={toggleTheme}>다크모드</button>
-      </main>
+      </BasicLayout>
     </>
   );
 }

@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import styled from '@emotion/styled';
 import AuthForm from '@/components/auth/AuthForm';
+import BasicLayout from '@/components/layouts/BasicLayout';
 
 function login() {
   return (
@@ -11,16 +12,11 @@ function login() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Content>
+      <BasicLayout header="onlyBack">
         <AuthForm mode="login" />
-      </Content>
+      </BasicLayout>
     </>
   );
 }
-
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
 
 export default login;
