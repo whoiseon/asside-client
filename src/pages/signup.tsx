@@ -1,8 +1,47 @@
 import Head from 'next/head';
 import AuthForm from '@/components/auth/AuthForm';
 import BasicLayout from '@/components/layouts/BasicLayout';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useCallback, useEffect, useState } from 'react';
+import { signUp } from '@/lib/apis/auth';
+import { SignUpParams } from '@/lib/apis/types';
 
 function SignUp() {
+  const [isSignedUp, setIsSignedUp] = useState<boolean>(false);
+  const [signUpError, setSignUpError] = useState<string>('');
+
+  const { isLoading, mutate } = useMutation({
+    mutationFn: signUp,
+    onMutate: () => {
+      setSignUpError('');
+    },
+    onSuccess: () => {
+      setIsSignedUp(true);
+    },
+    onError: (e: any) => {
+      const error = e.response?.data;
+      if (error.payload) {
+        if (error.payload === 'email') {
+          setSignUpError(`EmailExistsError`);
+          return;
+        }
+        if (error.payload === 'username') {
+          setSignUpError('UsernameExistsError');
+          return;
+        }
+      }
+      setSignUpError(error.name);
+    },
+  });
+
+  const onSubmit = useCallback(
+    async ({ email, password, username }: SignUpParams) => {
+      if (!email || !password || !username) return;
+      mutate({ email, username, password });
+    },
+    [mutate],
+  );
+
   return (
     <>
       <Head>
@@ -12,7 +51,14 @@ function SignUp() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <BasicLayout header="onlyBack">
-        <AuthForm mode="signup" />
+        <AuthForm
+          mode="signup"
+          onSubmit={onSubmit}
+          isLoading={isLoading}
+          serverError={signUpError}
+          isSignedUp={isSignedUp}
+          setIsSignedUp={setIsSignedUp}
+        />
       </BasicLayout>
     </>
   );

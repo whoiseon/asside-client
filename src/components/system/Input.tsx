@@ -1,11 +1,25 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { themedPalette } from '@/styles/palette';
+import { RegisterOptions } from 'react-hook-form';
 
-export interface Props extends React.InputHTMLAttributes<HTMLInputElement> {}
+export interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
+  register?: any;
+  option?: RegisterOptions;
+  errors?: any;
+}
 
-function Input(props: Props) {
-  return <StyledInput {...props} />;
+function Input({ errors, register, option, ...rest }: Props) {
+  if (register) {
+    return (
+      <>
+        <StyledInput {...register(rest.name, option)} {...rest} />
+        {errors && <ErrorMessage>{errors.message}</ErrorMessage>}
+      </>
+    );
+  }
+
+  return <StyledInput {...rest} />;
 }
 
 const StyledInput = styled.input`
@@ -26,6 +40,18 @@ const StyledInput = styled.input`
   &::placeholder {
     color: ${themedPalette.text4};
   }
+
+  &:disabled {
+    background-color: ${themedPalette.bg_page};
+    color: ${themedPalette.text4};
+  }
+`;
+
+const ErrorMessage = styled.p`
+  margin-top: 8px;
+  margin-bottom: 0;
+  font-size: 14px;
+  color: ${themedPalette.destructive1};
 `;
 
 export default Input;

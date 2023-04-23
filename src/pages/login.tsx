@@ -1,9 +1,41 @@
 import Head from 'next/head';
-import styled from '@emotion/styled';
 import AuthForm from '@/components/auth/AuthForm';
 import BasicLayout from '@/components/layouts/BasicLayout';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useCallback, useState } from 'react';
+import { logIn } from '@/lib/apis/auth';
+import { useRouter } from 'next/router';
+import { SignUpParams } from '@/lib/apis/types';
 
-function login() {
+function Login() {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const [loginError, setLoginError] = useState<string>('');
+
+  const { isLoading, mutate } = useMutation({
+    mutationFn: logIn,
+    onMutate: () => {
+      setLoginError('');
+    },
+    onSuccess: () => {
+      queryClient.refetchQueries(['me']).then(() => {
+        router.push('/');
+      });
+    },
+    onError: (e: any) => {
+      const error = e.response?.data;
+      setLoginError(error.name);
+    },
+  });
+
+  const onSubmit = useCallback(
+    async ({ email, password }: SignUpParams) => {
+      if (!email || !password) return;
+      mutate({ email, password });
+    },
+    [mutate],
+  );
+
   return (
     <>
       <Head>
@@ -13,10 +45,15 @@ function login() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <BasicLayout header="onlyBack">
-        <AuthForm mode="login" />
+        <AuthForm
+          mode="login"
+          onSubmit={onSubmit}
+          isLoading={isLoading}
+          serverError={loginError}
+        />
       </BasicLayout>
     </>
   );
 }
 
-export default login;
+export default Login;

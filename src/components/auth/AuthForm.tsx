@@ -4,10 +4,20 @@ import { themedPalette } from '@/styles/palette';
 import Button from '@/components/system/Button';
 import QuestionLink from '@/components/auth/QuestionLink';
 import CheckBox from '@/components/system/CheckBox';
-import { useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import { SignUpParams } from '@/lib/apis/types';
+import { useForm } from 'react-hook-form';
+import { loginFormErrors, registerFormErrors } from '@/lib/authFormErrors';
+import SignedUp from '@/components/auth/SignedUp';
+import transitions from '@/styles/transitions';
 
 interface Props {
   mode: 'login' | 'signup';
+  onSubmit: (params: SignUpParams) => void;
+  isLoading: boolean;
+  serverError?: string;
+  isSignedUp?: boolean;
+  setIsSignedUp?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const modeDescriptions = {
@@ -20,6 +30,11 @@ const modeDescriptions = {
     question: '새로 오셨나요?',
     actionName: '가입하기',
     actionLink: '/signup',
+    errorOptions: {
+      usernameError: {},
+      emailError: loginFormErrors.email,
+      passwordError: loginFormErrors.password,
+    },
   },
   signup: {
     welcomeText: '처음 뵐게요 만나서 반가워요!',
@@ -30,11 +45,34 @@ const modeDescriptions = {
     question: '계정이 있으세요?',
     actionName: '로그인',
     actionLink: '/login',
+    errorOptions: {
+      usernameError: registerFormErrors.username,
+      emailError: registerFormErrors.email,
+      passwordError: registerFormErrors.password,
+    },
   },
 };
 
-function AuthForm({ mode }: Props) {
+function AuthForm({
+  mode,
+  onSubmit,
+  isLoading,
+  serverError,
+  isSignedUp,
+  setIsSignedUp,
+}: Props) {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignUpParams>({
+    defaultValues: {
+      username: '',
+      email: '',
+      password: '',
+    },
+  });
 
   const {
     welcomeText,
@@ -45,35 +83,69 @@ function AuthForm({ mode }: Props) {
     question,
     actionName,
     actionLink,
+    errorOptions: { usernameError, emailError, passwordError },
   } = modeDescriptions[mode];
 
   const onChangeShowPassword = () => {
     setShowPassword((prev) => !prev);
   };
 
+  const handleToTranslateError = useMemo(() => {
+    switch (serverError) {
+      case 'EmailExistsError':
+        return '이미 사용중인 이메일 입니다!';
+      case 'UsernameExistsError':
+        return '이미 사용중인 이름 또는 닉네임 입니다!';
+      case 'AuthenticationError':
+        return '잘못된 계정 정보입니다!';
+      case 'UnknownError':
+        return '알 수 없는 오류가 발생하였습니다!';
+      default:
+        return undefined;
+    }
+  }, [serverError]);
+
+  if (isSignedUp) {
+    return <SignedUp setIsSignedUp={setIsSignedUp} />;
+  }
+
   return (
     <Block>
       <Welcome>{welcomeText}</Welcome>
-      <StyledForm>
+      <StyledForm onSubmit={handleSubmit(onSubmit)}>
         <InputGroup>
           <LabelInput
             label="이메일"
-            type="email"
+            name="email"
+            type="text"
             placeholder={emailPlaceholder}
+            errors={errors.email}
+            register={register}
+            option={emailError}
           />
           {mode === 'signup' && (
             <LabelInput
-              label="닉네임"
+              label="이름 또는 닉네임"
+              name="username"
               type="text"
               placeholder={usernamePlaceholder}
+              errors={errors.username}
+              register={register}
+              option={usernameError}
+              disabled={isLoading}
             />
           )}
           <LabelInput
             label="비밀번호"
+            name="password"
             type={showPassword ? 'text' : 'password'}
             placeholder={passwordPlaceholder}
+            register={register}
+            errors={errors.password}
+            option={passwordError}
           />
         </InputGroup>
+        {serverError && <ErrorMessage>{handleToTranslateError}</ErrorMessage>}
         <CheckGroup>
           <CheckBox
             label="비밀번호를 표시할게요"
@@ -83,8 +155,13 @@ function AuthForm({ mode }: Props) {
           />
         </CheckGroup>
         <ActionsBox>
-          <Button layout="fullWidth" variant="primary" type="submit">
-            {buttonText}
+          <Button
+            layout="fullWidth"
+            variant="primary"
+            type="submit"
+            disabled={isLoading}
+          >
+            {isLoading ? `${buttonText}중 입니다...` : buttonText}
           </Button>
           <QuestionLink
             question={question}
@@ -102,6 +179,7 @@ const Block = styled.div`
   flex-direction: column;
   padding: 16px;
   gap: 32px;
+  animation: ${transitions.fadeInSlideUp} 0.3s ease-in-out;
 `;
 
 const Welcome = styled.h1`
@@ -134,6 +212,13 @@ const ActionsBox = styled.div`
   flex-direction: column;
   width: 100%;
   gap: 16px;
+`;
+
+const ErrorMessage = styled.p`
+  margin-top: 8px;
+  margin-bottom: 0;
+  font-size: 16px;
+  color: ${themedPalette.destructive1};
 `;
 
 export default AuthForm;

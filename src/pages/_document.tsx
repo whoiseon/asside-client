@@ -6,7 +6,7 @@ import Document, {
   DocumentContext,
 } from 'next/document';
 import { renderStatic } from '@/lib/renderStatic';
-import nookies, { parseCookies } from 'nookies';
+import nookies from 'nookies';
 
 type Props = {
   theme: 'dark' | 'light';
@@ -39,7 +39,6 @@ export default class MyDocument extends Document<Props> {
       <Html lang="en">
         <Head />
         <body data-theme={this.props.theme}>
-          {/*<ScriptTag />*/}
           <Main />
           <NextScript />
         </body>
