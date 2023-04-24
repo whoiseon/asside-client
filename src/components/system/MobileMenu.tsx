@@ -3,12 +3,17 @@ import { themedPalette } from '@/styles/palette';
 import Input from '@/components/system/Input';
 import SearchIcon from '@/assets/vectors/search-icon.svg';
 import { useState } from 'react';
+import MenuItem from '@/components/system/MenuItem';
+import HomeIcon from '@/assets/vectors/home-icon.svg';
+import ProjectIcon from '@/assets/vectors/project-icon.svg';
+import StudyIcon from '@/assets/vectors/study-icon.svg';
+import TeamIcon from '@/assets/vectors/team-icon.svg';
 
 const commonMenuLinks = [
-  { name: '홈', link: '/', icon: null },
-  { name: '프로젝트', link: '/project', icon: null },
-  { name: '스터디', link: '/study', icon: null },
-  { name: '팀', link: '/team', icon: null },
+  { name: '홈', link: '/', icon: <HomeIcon /> },
+  { name: '프로젝트', link: '/project', icon: <ProjectIcon /> },
+  { name: '스터디', link: '/study', icon: <StudyIcon /> },
+  { name: '팀', link: '/team', icon: <TeamIcon /> },
 ];
 
 function MobileMenu() {
@@ -31,7 +36,26 @@ function MobileMenu() {
         />
       </SearchGroup>
       <MenuGroup>
-        <List>123</List>
+        <List>
+          {commonMenuLinks.map((item) => {
+            return (
+              <MenuItem
+                key={item.name}
+                name={item.name}
+                icon={item.icon}
+                link={item.link}
+              />
+            );
+          })}
+        </List>
+      </MenuGroup>
+      <MenuGroup>
+        <Title>
+          <p>유저 정보</p>
+        </Title>
+        <List>
+          <MenuItem name="프로필" link="/profile" />
+        </List>
       </MenuGroup>
     </StyledMenu>
   );
@@ -55,7 +79,7 @@ const SearchGroup = styled.div<{ focused: boolean }>`
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 16px;
+  padding: 16px 16px 8px;
   position: relative;
   input {
     width: 100%;
@@ -75,17 +99,21 @@ const SearchGroup = styled.div<{ focused: boolean }>`
 const MenuGroup = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 8px 16px;
 `;
 
 const List = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 2px;
 `;
 
 const Title = styled.div`
+  padding: 0 12px;
   p {
+    margin: 0 0 8px;
     font-size: 14px;
-    color: ${themedPalette.text2};
+    color: ${themedPalette.text3};
   }
 `;
 
