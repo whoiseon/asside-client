@@ -109,7 +109,8 @@ const List = styled.div`
 `;
 
 const Title = styled.div`
-  padding: 0 12px;
+  padding-left: 8px;
+  padding-right: 8px;
   p {
     margin: 0 0 8px;
     font-size: 14px;

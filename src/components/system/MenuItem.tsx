@@ -37,8 +37,8 @@ const StyledLink = styled(Link)<{ isActive: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-right: 12px;
-  padding-left: 12px;
+  padding-right: 8px;
+  padding-left: 8px;
   min-height: 40px;
   color: ${themedPalette.text1};
   border-radius: 4px;
@@ -64,7 +64,7 @@ const LeftBox = styled.div`
   align-items: center;
   gap: 12px;
   svg {
-    width: 24px;
+    width: 20px;
     color: ${themedPalette.text3};
   }
 `;

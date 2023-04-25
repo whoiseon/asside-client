@@ -8,6 +8,7 @@ import { getMyAccount } from '@/lib/apis/auth';
 import useMyAccount from '@/lib/hooks/useMyAccount';
 import Link from 'next/link';
 import { clearClientCookie, setClientCookie } from '@/lib/client';
+import { queryKey } from '@/lib/queryKey';
 
 export default function Home() {
   const { data } = useMyAccount();
@@ -25,7 +26,7 @@ export default function Home() {
       <BasicLayout>
         <h1>Hello, Asside</h1>
         <button onClick={toggleTheme}>다크모드</button>
-        <Link href="/login">로그인</Link>
+        {!data && <Link href="/login">로그인</Link>}
       </BasicLayout>
     </>
   );
@@ -35,16 +36,16 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   clearClientCookie();
 
   const { req, res } = ctx;
+  const queryClient = new QueryClient();
   const cookie = req ? req.headers.cookie : '';
   if (!cookie) {
     return {
       props: {},
     };
   }
-  setClientCookie(cookie);
 
-  const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(['me'], getMyAccount);
+  setClientCookie(cookie);
+  await queryClient.prefetchQuery([queryKey.CURRENT_USER], getMyAccount, {});
 
   return {
     props: {
