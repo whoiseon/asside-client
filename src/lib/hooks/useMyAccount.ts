@@ -2,17 +2,15 @@ import { useQuery } from '@tanstack/react-query';
 import { parseCookies } from 'nookies';
 import { getMyAccount } from '@/lib/apis/auth';
 import { queryKey } from '@/lib/queryKey';
-import { useRouter } from 'next/router';
+import { User } from '@/lib/apis/types';
 
 export default function useMyAccount() {
-  const router = useRouter();
-  const cookies = parseCookies();
-  const myAccount = useQuery({
+  const myAccount = useQuery<User>({
     queryKey: [queryKey.CURRENT_USER],
     queryFn: getMyAccount,
     refetchOnWindowFocus: true,
     retry: false,
-    enabled: cookies?.access_token !== undefined,
+    staleTime: 1000 * 60 * 5, // 10 minutes
   });
   return myAccount;
 }

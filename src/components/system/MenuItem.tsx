@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { themedPalette } from '@/styles/palette';
 import { useRouter } from 'next/router';
 import { css } from '@emotion/react';
+import RightArrowIcon from '@/assets/vectors/right-arrow-icon.svg';
 
 interface Props {
   name: string;
@@ -11,29 +12,49 @@ interface Props {
   icon?: React.ReactNode;
   onClick?: () => void;
   hasArrow?: boolean;
+  rightText?: string;
 }
 
-function MenuItem({ name, link, icon, onClick, hasArrow = true }: Props) {
+function MenuItem({
+  name,
+  link,
+  icon,
+  onClick,
+  hasArrow = false,
+  rightText,
+}: Props) {
   const { pathname } = useRouter();
-  const isActive = pathname === link;
-
   return (
-    <Block>
-      <StyledLink href={link} isActive={isActive}>
+    <Block isActive={pathname === link}>
+      <StyledLink href={link}>
         <LeftBox>
           {icon ? icon : null}
           {name}
         </LeftBox>
+        <RightBox>
+          {rightText ? <RightText>{rightText}</RightText> : null}
+          {hasArrow ? <RightArrowIcon /> : null}
+        </RightBox>
       </StyledLink>
     </Block>
   );
 }
 
-const Block = styled.div`
+const Block = styled.div<{ isActive: boolean }>`
   position: relative;
+  ${({ isActive }) =>
+    isActive &&
+    css`
+      a {
+        background-color: ${themedPalette.bg_element3};
+        svg {
+          color: ${themedPalette.text2};
+        }
+      }
+    `};
 `;
 
-const StyledLink = styled(Link)<{ isActive: boolean }>`
+const StyledLink = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -44,15 +65,6 @@ const StyledLink = styled(Link)<{ isActive: boolean }>`
   border-radius: 4px;
   transition: background-color 0.125s ease-in-out;
   line-height: 1.5;
-
-  ${({ isActive }) =>
-    isActive &&
-    css`
-      background-color: ${themedPalette.bg_element3};
-      svg {
-        color: ${themedPalette.text2};
-      }
-    `};
 
   &:hover {
     background-color: ${themedPalette.bg_element2};
@@ -65,10 +77,23 @@ const LeftBox = styled.div`
   gap: 12px;
   svg {
     width: 20px;
-    color: ${themedPalette.text3};
+    color: ${themedPalette.text4};
   }
 `;
 
-const RightBox = styled.div``;
+const RightBox = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  svg {
+    width: 12px;
+    color: ${themedPalette.text4};
+  }
+`;
+
+const RightText = styled.span`
+  font-size: 14px;
+  color: ${themedPalette.text4};
+`;
 
 export default MenuItem;

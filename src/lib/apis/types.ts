@@ -9,6 +9,21 @@ export interface SignUpParams {
   password: string;
 }
 
+export interface LoginResult {
+  user: User;
+  tokens: Tokens;
+}
+
+export interface SignUpResult {
+  registered: boolean;
+}
+
+export interface User {
+  id: number;
+  email: string;
+  username: string;
+}
+
 export interface Tokens {
   accessToken: string;
   refreshToken: string;

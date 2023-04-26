@@ -8,6 +8,10 @@ import HomeIcon from '@/assets/vectors/home-icon.svg';
 import ProjectIcon from '@/assets/vectors/project-icon.svg';
 import StudyIcon from '@/assets/vectors/study-icon.svg';
 import TeamIcon from '@/assets/vectors/team-icon.svg';
+import useMyAccount from '@/lib/hooks/useMyAccount';
+import UserProfileIcon from '@/assets/vectors/user-profile-icon.svg';
+import LogOutIcon from '@/assets/vectors/logout-icon.svg';
+import ConfigIcon from '@/assets/vectors/config-icon.svg';
 
 const commonMenuLinks = [
   { name: '홈', link: '/', icon: <HomeIcon /> },
@@ -17,6 +21,7 @@ const commonMenuLinks = [
 ];
 
 function MobileMenu() {
+  const { data: userData } = useMyAccount();
   const [focused, setFocused] = useState<boolean>(false);
   const onFocus = () => {
     setFocused(true);
@@ -49,14 +54,33 @@ function MobileMenu() {
           })}
         </List>
       </MenuGroup>
-      <MenuGroup>
-        <Title>
-          <p>유저 정보</p>
-        </Title>
-        <List>
-          <MenuItem name="프로필" link="/profile" />
-        </List>
-      </MenuGroup>
+      {userData ? (
+        <MenuGroup>
+          <Title>
+            <p>유저 정보</p>
+          </Title>
+          <List>
+            <MenuItem
+              name="프로필"
+              link="/profile"
+              icon={<UserProfileIcon />}
+              hasArrow
+            />
+            <MenuItem
+              name="개인 설정"
+              link="/config"
+              icon={<ConfigIcon />}
+              hasArrow
+            />
+            <MenuItem
+              name="로그아웃"
+              link="/logout"
+              icon={<LogOutIcon />}
+              hasArrow
+            />
+          </List>
+        </MenuGroup>
+      ) : null}
     </StyledMenu>
   );
 }
