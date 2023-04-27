@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { themedPalette } from '@/styles/palette';
 import Input from '@/components/system/Input';
 import SearchIcon from '@/assets/vectors/search-icon.svg';
-import { useState } from 'react';
+import { useState, MouseEvent } from 'react';
 import MenuItem from '@/components/system/MenuItem';
 import HomeIcon from '@/assets/vectors/home-icon.svg';
 import ProjectIcon from '@/assets/vectors/project-icon.svg';
@@ -29,6 +29,12 @@ function MobileMenu() {
   const onBlur = () => {
     setFocused(false);
   };
+
+  const onLogout = () => {
+    console.log('logout');
+    // todo: logout api using react-query useMutation
+  };
+
   return (
     <StyledMenu>
       <SearchGroup focused={focused}>
@@ -64,6 +70,7 @@ function MobileMenu() {
               name="프로필"
               link="/profile"
               icon={<UserProfileIcon />}
+              rightText={userData.username}
               hasArrow
             />
             <MenuItem
@@ -76,6 +83,7 @@ function MobileMenu() {
               name="로그아웃"
               link="/logout"
               icon={<LogOutIcon />}
+              onClick={onLogout}
               hasArrow
             />
           </List>

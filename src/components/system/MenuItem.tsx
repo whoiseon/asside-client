@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { themedPalette } from '@/styles/palette';
@@ -10,8 +10,8 @@ interface Props {
   name: string;
   link: string;
   icon?: React.ReactNode;
-  onClick?: () => void;
   hasArrow?: boolean;
+  onClick?: () => void;
   rightText?: string;
 }
 
@@ -24,6 +24,24 @@ function MenuItem({
   rightText,
 }: Props) {
   const { pathname } = useRouter();
+
+  if (link === '/logout') {
+    return (
+      <Block>
+        <StyledButton onClick={onClick}>
+          <LeftBox>
+            {icon ? icon : null}
+            {name}
+          </LeftBox>
+          <RightBox>
+            {rightText ? <RightText>{rightText}</RightText> : null}
+            {hasArrow ? <RightArrowIcon /> : null}
+          </RightBox>
+        </StyledButton>
+      </Block>
+    );
+  }
+
   return (
     <Block isActive={pathname === link}>
       <StyledLink href={link}>
@@ -40,7 +58,7 @@ function MenuItem({
   );
 }
 
-const Block = styled.div<{ isActive: boolean }>`
+const Block = styled.div<{ isActive?: boolean }>`
   position: relative;
   ${({ isActive }) =>
     isActive &&
@@ -60,6 +78,27 @@ const StyledLink = styled(Link)`
   justify-content: space-between;
   padding-right: 8px;
   padding-left: 8px;
+  min-height: 40px;
+  color: ${themedPalette.text1};
+  border-radius: 4px;
+  transition: background-color 0.125s ease-in-out;
+  line-height: 1.5;
+
+  &:hover {
+    background-color: ${themedPalette.bg_element2};
+  }
+`;
+
+const StyledButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  width: 100%;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
   min-height: 40px;
   color: ${themedPalette.text1};
   border-radius: 4px;
