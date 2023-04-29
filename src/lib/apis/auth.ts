@@ -24,6 +24,10 @@ export const signUp = async (params: SignUpParams) => {
   return response.data;
 };
 
+export const logOut = async () => {
+  await client.post('/api/auth/logout', {});
+};
+
 export const getMyAccount = async () => {
   const response = await client.get<User>('/api/me');
   return response.data;

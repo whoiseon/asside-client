@@ -12,6 +12,14 @@ import useMyAccount from '@/lib/hooks/useMyAccount';
 import UserProfileIcon from '@/assets/vectors/user-profile-icon.svg';
 import LogOutIcon from '@/assets/vectors/logout-icon.svg';
 import ConfigIcon from '@/assets/vectors/config-icon.svg';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { logOut } from '@/lib/apis/auth';
+import { useRouter } from 'next/router';
+import { queryKey } from '@/lib/queryKey';
+
+interface Props {
+  onToggleMenu: () => void;
+}
 
 const commonMenuLinks = [
   { name: '홈', link: '/', icon: <HomeIcon /> },
@@ -20,7 +28,9 @@ const commonMenuLinks = [
   { name: '팀', link: '/team', icon: <TeamIcon /> },
 ];
 
-function MobileMenu() {
+function MobileMenu({ onToggleMenu }: Props) {
+  const router = useRouter();
+  const queryClient = useQueryClient();
   const { data: userData } = useMyAccount();
   const [focused, setFocused] = useState<boolean>(false);
   const onFocus = () => {
@@ -30,9 +40,17 @@ function MobileMenu() {
     setFocused(false);
   };
 
+  const { mutate } = useMutation({
+    mutationFn: logOut,
+    onSuccess: () => {
+      onToggleMenu();
+      router.push('/');
+      queryClient.setQueryData([queryKey.CURRENT_USER], () => null);
+    },
+  });
+
   const onLogout = () => {
-    console.log('logout');
-    // todo: logout api using react-query useMutation
+    mutate();
   };
 
   return (

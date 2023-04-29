@@ -40,7 +40,7 @@ function Header({
           <HeaderMenuButton onClick={onToggleMenu} />
         </Right>
       )}
-      {menuOpen && <MobileMenu />}
+      {menuOpen && <MobileMenu onToggleMenu={onToggleMenu} />}
     </Block>
   );
 }
