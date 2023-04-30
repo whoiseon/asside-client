@@ -5,9 +5,9 @@ import React from 'react';
 import HeaderMenuButton from '@/components/base/HeaderMenuButton';
 import HeaderBackButton from '@/components/base/HeaderBackButton';
 import { useGoBack } from '@/lib/hooks/useGoback';
-import Portal from '@/components/system/Portal';
 import MobileMenu from '@/components/system/MobileMenu';
 import useToggle from '@/lib/hooks/useToggle';
+import Link from 'next/link';
 
 interface Props {
   mode?: 'default' | 'onlyBack';
@@ -34,7 +34,7 @@ function Header({
 
   return (
     <Block>
-      <Left>{headerLeft}</Left>
+      <Title href="/">{headerLeft}</Title>
       {hasMenu && (
         <Right>
           <HeaderMenuButton onClick={onToggleMenu} />
@@ -66,7 +66,9 @@ const BackBlock = styled.nav`
   padding-left: 16px;
 `;
 
-const Left = styled.div`
+const Title = styled(Link)`
+  padding: 8px;
+  margin-left: -8px;
   svg {
     display: block;
     width: 72px;

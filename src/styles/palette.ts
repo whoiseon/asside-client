@@ -16,6 +16,7 @@ type ThemeVariables = {
   destructive1: string;
   destructive2: string;
   button_text: string;
+  placeholder: string;
 };
 
 type Theme = 'light' | 'dark';
@@ -41,6 +42,7 @@ const themeVariableSets: Record<Theme, ThemeVariables> = {
     destructive1: '#FB4E4E',
     destructive2: '#FC7171',
     button_text: '#FFFFFF',
+    placeholder: '#868E96',
   },
   dark: {
     bg_page: '#090909',
@@ -60,6 +62,7 @@ const themeVariableSets: Record<Theme, ThemeVariables> = {
     destructive1: '#ED6D5F',
     destructive2: '#BE574C',
     button_text: '#090909',
+    placeholder: '#666666',
   },
 };
 

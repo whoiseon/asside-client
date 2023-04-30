@@ -37,14 +37,14 @@ const StyledInput = styled.input`
   padding: 0 12px;
   font-size: 16px;
   outline: none;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 1px rgba(0, 0, 0, 0.05);
 
   &:focus {
     border: 1px solid ${themedPalette.primary1};
   }
 
   &::placeholder {
-    color: ${themedPalette.text4};
+    color: ${themedPalette.placeholder};
   }
 
   &:disabled {

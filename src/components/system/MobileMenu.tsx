@@ -16,6 +16,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { logOut } from '@/lib/apis/auth';
 import { useRouter } from 'next/router';
 import { queryKey } from '@/lib/queryKey';
+import MenuThemeItem from '@/components/system/MenuThemeItem';
 
 interface Props {
   onToggleMenu: () => void;
@@ -81,7 +82,7 @@ function MobileMenu({ onToggleMenu }: Props) {
       {userData ? (
         <MenuGroup>
           <Title>
-            <p>유저 정보</p>
+            <p>내 정보</p>
           </Title>
           <List>
             <MenuItem
@@ -107,6 +108,12 @@ function MobileMenu({ onToggleMenu }: Props) {
           </List>
         </MenuGroup>
       ) : null}
+      <MenuGroup>
+        <Title>
+          <p>일반</p>
+        </Title>
+        <MenuThemeItem />
+      </MenuGroup>
     </StyledMenu>
   );
 }

@@ -116,7 +116,7 @@ const LeftBox = styled.div`
   gap: 12px;
   svg {
     width: 20px;
-    color: ${themedPalette.text4};
+    color: ${themedPalette.text3};
   }
 `;
 
