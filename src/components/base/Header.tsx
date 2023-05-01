@@ -37,7 +37,7 @@ function Header({
       <Title href="/">{headerLeft}</Title>
       {hasMenu && (
         <Right>
-          <HeaderMenuButton onClick={onToggleMenu} />
+          <HeaderMenuButton onClick={onToggleMenu} menuOpen={menuOpen} />
         </Right>
       )}
       {menuOpen && <MobileMenu onToggleMenu={onToggleMenu} />}

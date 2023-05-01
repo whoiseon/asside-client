@@ -3,6 +3,7 @@ type ThemeVariables = {
   bg_element1: string;
   bg_element2: string;
   bg_element3: string;
+  bg_element4: string;
   text1: string;
   text2: string;
   text3: string;
@@ -29,6 +30,7 @@ const themeVariableSets: Record<Theme, ThemeVariables> = {
     bg_element1: '#FFFFFF',
     bg_element2: '#F8F9FA',
     bg_element3: '#E9ECEF',
+    bg_element4: '#E2E2E2',
     text1: '#090909',
     text2: '#495057',
     text3: '#868E96',
@@ -49,6 +51,7 @@ const themeVariableSets: Record<Theme, ThemeVariables> = {
     bg_element1: '#191919',
     bg_element2: '#252525',
     bg_element3: '#2F2F2F',
+    bg_element4: '#C2C2C2',
     text1: '#ECECEC',
     text2: '#D9D9D9',
     text3: '#ACACAC',

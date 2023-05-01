@@ -11,7 +11,7 @@ import TeamIcon from '@/assets/vectors/team-icon.svg';
 import useMyAccount from '@/lib/hooks/useMyAccount';
 import UserProfileIcon from '@/assets/vectors/user-profile-icon.svg';
 import LogOutIcon from '@/assets/vectors/logout-icon.svg';
-import ConfigIcon from '@/assets/vectors/config-icon.svg';
+import SettingIcon from '@/assets/vectors/config-icon.svg';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { logOut } from '@/lib/apis/auth';
 import { useRouter } from 'next/router';
@@ -87,15 +87,15 @@ function MobileMenu({ onToggleMenu }: Props) {
           <List>
             <MenuItem
               name="프로필"
-              link="/profile"
+              link={`@${userData.username}`}
               icon={<UserProfileIcon />}
               rightText={userData.username}
               hasArrow
             />
             <MenuItem
               name="개인 설정"
-              link="/config"
-              icon={<ConfigIcon />}
+              link="/setting"
+              icon={<SettingIcon />}
               hasArrow
             />
             <MenuItem

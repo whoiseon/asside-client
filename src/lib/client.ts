@@ -21,6 +21,7 @@ client.interceptors.response.use(
   },
   async (e) => {
     const error = e.response?.data;
+    console.log(error);
     if (error?.name === 'UnauthorizedError' && error?.payload?.isExpiredToken) {
       try {
         await refreshToken();

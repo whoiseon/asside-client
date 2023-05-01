@@ -57,4 +57,20 @@ function Login() {
   );
 }
 
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const { cookies } = req;
+  if (cookies.access_token) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/',
+      },
+      props: {},
+    };
+  }
+  return {
+    props: {},
+  };
+};
+
 export default Login;

@@ -88,6 +88,7 @@ const ThemeButton = styled.button<{ isDark: boolean }>`
   align-items: center;
   cursor: pointer;
   padding: 0;
+  margin: 0;
   position: relative;
   min-width: 48px;
   min-height: 24px;

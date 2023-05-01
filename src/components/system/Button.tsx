@@ -7,7 +7,7 @@ import { themedPalette } from '@/styles/palette';
 interface ButtonProps {
   layout?: 'inline' | 'fullWidth';
   size?: 'small' | 'medium';
-  variant?: 'primary' | 'destructive' | 'text';
+  variant?: 'primary' | 'grey' | 'destructive' | 'text';
   icon?: React.ReactNode;
 }
 
@@ -48,13 +48,23 @@ const variantStyles = {
   primary: css`
     background: ${themedPalette.primary1};
     color: ${themedPalette.button_text};
+    border: none;
     &:hover {
       background: ${themedPalette.primary2};
+    }
+  `,
+  grey: css`
+    background-color: ${themedPalette.bg_element1};
+    color: ${themedPalette.text1};
+    border: 1px solid ${themedPalette.border4};
+    &:hover {
+      background-color: ${themedPalette.bg_element2};
     }
   `,
   destructive: css`
     background: ${themedPalette.destructive1};
     color: ${themedPalette.button_text};
+    border: none;
     &:hover {
       background: ${themedPalette.destructive2};
     }
@@ -63,6 +73,7 @@ const variantStyles = {
     background: transparent;
     color: ${themedPalette.text3};
     text-decoration: none;
+    border: none;
     &:hover {
       background: ${themedPalette.bg_element1};
       color: ${themedPalette.text2};
@@ -93,14 +104,10 @@ const sharedStyles = (props: ButtonProps) => css`
   justify-content: center;
   border-radius: 6px;
   transition: all 0.16s ease-in-out;
-  border: none;
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
 
-  &:link {
-    color: ${themedPalette.button_text};
-  }
   svg {
     width: 20px;
     height: 20px;
