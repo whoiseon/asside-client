@@ -3,7 +3,7 @@ import { UserState } from '@/modules/types';
 import { RootState } from '@/modules/core/reducers';
 
 const initialState: UserState = {
-  id: null,
+  id: '',
   username: '',
   email: '',
   isLoggedIn: false,
@@ -20,7 +20,7 @@ const user = createSlice({
       state.isLoggedIn = action.payload.isLoggedIn;
     },
     clearUser(state) {
-      state.id = null;
+      state.id = '';
       state.username = '';
       state.email = '';
       state.isLoggedIn = false;
@@ -28,7 +28,7 @@ const user = createSlice({
   },
 });
 
-const userIdSelector = (state: RootState) => state.user.id;
+export const userIdSelector = (state: RootState) => state.user.id;
 
 export const { setUser, clearUser } = user.actions;
 

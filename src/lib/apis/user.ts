@@ -1,5 +1,8 @@
 import { client } from '@/lib/client';
+import { UserProfileResult } from '@/lib/apis/types';
 
-export async function getUserProfile(userId: number) {
-  const response = await client.get(`/api/user/${userId}`);
+export async function getUserProfile(username: string) {
+  const response = await client.get<UserProfileResult>(`/api/user/${username}`);
+
+  return response.data;
 }

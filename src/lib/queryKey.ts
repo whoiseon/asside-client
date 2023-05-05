@@ -1,4 +1,4 @@
 export const queryKey = {
   CURRENT_USER: 'me',
-  USER: (userId: number) => ['user', userId],
+  USER: (username: string) => ['user', username],
 };

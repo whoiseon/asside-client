@@ -9,7 +9,7 @@ export interface DarkModeState {
 }
 
 export interface UserState {
-  id: number | null;
+  id: string;
   username: string;
   email: string;
   isLoggedIn: boolean;

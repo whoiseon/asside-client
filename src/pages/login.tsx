@@ -26,7 +26,7 @@ function Login() {
       queryClient.refetchQueries(['me']);
       dispatch(
         setUser({
-          id: data.user.id,
+          id: String(data.user.id),
           username: data.user.username,
           email: data.user.email,
           isLoggedIn: true,

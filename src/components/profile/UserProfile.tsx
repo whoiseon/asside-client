@@ -3,9 +3,16 @@ import DefaultProfile from '@/components/system/DefaultProfile';
 import useMyAccount from '@/lib/hooks/useMyAccount';
 import { themedPalette } from '@/styles/palette';
 import Button from '@/components/system/Button';
+import useUserProfile from '@/lib/hooks/useUserProfile';
+import { useRouter } from 'next/router';
 
 function UserProfile() {
-  const { data: userData } = useMyAccount();
+  const router = useRouter();
+  const {
+    query: { username },
+  } = router;
+  const { data: userData } = useUserProfile(username as string);
+
   return (
     <Block>
       <ProfileBox>
@@ -16,7 +23,9 @@ function UserProfile() {
             <UserEmail>{userData?.email}</UserEmail>
           </Info>
         </Profile>
-        <Description>Hello, I am junior front-end developer.</Description>
+        {userData?.description ? (
+          <Description>{userData?.description}</Description>
+        ) : null}
       </ProfileBox>
       <ActionBox>
         <Button layout="fullWidth" variant="grey" size="small" href="/setting">
@@ -31,6 +40,7 @@ const Block = styled.div`
   display: flex;
   flex-direction: column;
   padding-top: 16px;
+  gap: 16px;
 `;
 
 const ProfileBox = styled.div`
