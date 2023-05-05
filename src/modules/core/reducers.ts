@@ -1,7 +1,8 @@
-import { ReducerStates } from '@/modules/core/types';
+import { ReducerStates } from '@/modules/types';
 import { AnyAction, combineReducers, CombinedState } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 import darkMode from '@/modules/darkMode';
+import user from '@/modules/user';
 
 const rootReducer = (
   state: ReducerStates,
@@ -13,6 +14,7 @@ const rootReducer = (
     default: {
       const combineReducer = combineReducers({
         darkMode: darkMode.reducer,
+        user: user.reducer,
       });
 
       return combineReducer(state, action);

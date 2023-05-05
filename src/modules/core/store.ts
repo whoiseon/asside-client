@@ -1,6 +1,6 @@
 import { AnyAction, configureStore, Reducer } from '@reduxjs/toolkit';
 import rootReducer from '@/modules/core/reducers';
-import { ReducerStates } from '@/modules/core/types';
+import { ReducerStates } from '@/modules/types';
 import { createWrapper } from 'next-redux-wrapper';
 
 const store = () => {

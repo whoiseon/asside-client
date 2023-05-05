@@ -7,9 +7,12 @@ import { logIn } from '@/lib/apis/auth';
 import { useRouter } from 'next/router';
 import { SignUpParams } from '@/lib/apis/types';
 import { GetServerSideProps } from 'next';
+import { useDispatch } from 'react-redux';
+import { setUser } from '@/modules/user';
 
 function Login() {
   const router = useRouter();
+  const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const [loginError, setLoginError] = useState<string>('');
 
@@ -18,8 +21,17 @@ function Login() {
     onMutate: () => {
       setLoginError('');
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log(data);
       queryClient.refetchQueries(['me']);
+      dispatch(
+        setUser({
+          id: data.user.id,
+          username: data.user.username,
+          email: data.user.email,
+          isLoggedIn: true,
+        }),
+      );
       router.push('/');
     },
     onError: (e: any) => {

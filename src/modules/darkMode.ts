@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { DarkModeState } from '@/modules/core/types';
+import { DarkModeState } from '@/modules/types';
 
 const initialState: DarkModeState = {
   theme: 'default',
