@@ -85,14 +85,12 @@ const sizeStyles = {
   small: css`
     height: 36px;
     font-size: 14px;
-    padding-left: 12px;
-    padding-right: 12px;
+    padding: 0 12px;
   `,
   medium: css`
     height: 48px;
     font-size: 16px;
-    padding-left: 16px;
-    padding-right: 16px;
+    padding: 0 16px;
   `,
 };
 

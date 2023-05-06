@@ -1,17 +1,76 @@
 import styled from '@emotion/styled';
 import DefaultProfile from '@/components/system/DefaultProfile';
-import useMyAccount from '@/lib/hooks/useMyAccount';
 import { themedPalette } from '@/styles/palette';
 import Button from '@/components/system/Button';
 import useUserProfile from '@/lib/hooks/useUserProfile';
 import { useRouter } from 'next/router';
+import { CSSProperties, useEffect, useMemo, useState } from 'react';
+import EmptyList from '@/components/system/EmptyList';
+
+const tabMaps = [
+  { name: '프로젝트', tab: 'projects' },
+  { name: '팀', tab: 'teams' },
+  { name: '스터디', tab: 'studyGroups' },
+];
 
 function UserProfile() {
   const router = useRouter();
   const {
     query: { username },
   } = router;
-  const { data: userData } = useUserProfile(username as string);
+  const [nowTab, setNowTab] = useState<string>(
+    (router.query.tab as string) ?? 'projects',
+  );
+  const { data: userData } = useUserProfile(username as string, nowTab);
+
+  const renderedTab = useMemo(() => {
+    const activeStyle: CSSProperties = {
+      background: themedPalette.bg_element1,
+      color: themedPalette.text2,
+    };
+
+    return tabMaps.map((tab) => {
+      return (
+        <Button
+          key={tab.name}
+          layout="inline"
+          size="small"
+          variant="text"
+          href={`${router.asPath.split('?')[0]}?tab=${tab.tab}`}
+          style={nowTab === tab.tab ? activeStyle : {}}
+        >
+          {tab.name}
+        </Button>
+      );
+    });
+  }, [nowTab, router.asPath]);
+
+  const switchContent = () => {
+    switch (nowTab) {
+      case 'projects':
+        return userData?.projects;
+      case 'teams':
+        return userData?.teams;
+      case 'studyGroups':
+        return userData?.studyGroups;
+      default:
+        return [];
+    }
+  };
+
+  const renderedContent = useMemo(() => {
+    if (switchContent().length <= 0) {
+      return <EmptyList />;
+    }
+
+    return switchContent().map((content: any) => {
+      return <div key={content.id}>{content.name}</div>;
+    });
+  }, [switchContent]);
+
+  useEffect(() => {
+    setNowTab((router.query.tab as string) ?? 'projects');
+  }, [router.query.tab]);
 
   return (
     <Block>
@@ -26,29 +85,54 @@ function UserProfile() {
         {userData?.description ? (
           <Description>{userData?.description}</Description>
         ) : null}
+        <ActionBox>
+          <Button
+            layout="fullWidth"
+            variant="grey"
+            size="small"
+            href="/setting"
+          >
+            프로필 수정하기
+          </Button>
+        </ActionBox>
       </ProfileBox>
-      <ActionBox>
-        <Button layout="fullWidth" variant="grey" size="small" href="/setting">
-          프로필 수정하기
-        </Button>
-      </ActionBox>
+      <ContentBox>
+        <TabList>{renderedTab}</TabList>
+        {renderedContent}
+      </ContentBox>
     </Block>
   );
 }
 
-const Block = styled.div`
+const Block = styled.section`
   display: flex;
   flex-direction: column;
   padding-top: 16px;
-  gap: 16px;
+  gap: 32px;
+  flex: 1;
 `;
 
-const ProfileBox = styled.div`
+const ProfileBox = styled.article`
   display: flex;
   flex-direction: column;
   padding-left: 16px;
   padding-right: 16px;
   margin-top: 16px;
+`;
+
+const ContentBox = styled.article`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 16px;
+`;
+
+const TabList = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-right: 16px;
+  padding-left: 16px;
 `;
 
 const Profile = styled.div`
@@ -77,16 +161,12 @@ const UserEmail = styled.p`
 `;
 
 const Description = styled.p`
-  font-size: 14px;
   color: ${themedPalette.text2};
-  padding: 16px 0;
-  margin: 0;
+  margin: 16px 0 0;
 `;
 
 const ActionBox = styled.div`
-  padding-right: 16px;
-  padding-left: 16px;
-  margin-top: 8px;
+  margin-top: 16px;
   a {
     font-size: 14px;
     font-weight: 600;

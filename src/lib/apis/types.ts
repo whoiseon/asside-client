@@ -23,9 +23,9 @@ export interface UserProfileResult extends User {
   updatedAt: string;
   profile: string | null;
   description: string | null;
-  teams: any;
-  projects: any;
-  studyGroups: any;
+  teams?: any;
+  projects?: any;
+  studyGroups?: any;
 }
 
 export interface User {
