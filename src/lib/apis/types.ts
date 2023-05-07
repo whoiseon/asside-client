@@ -23,15 +23,50 @@ export interface UserProfileResult extends User {
   updatedAt: string;
   profile: string | null;
   description: string | null;
-  teams?: any;
-  projects?: any;
-  studyGroups?: any;
+  teams: Team[];
+  projects: Project[];
+  studyGroups: StudyGroup[];
 }
 
 export interface User {
   id: number;
   email: string;
   username: string;
+}
+
+export interface Team {
+  id: number;
+  name: string;
+  logo: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  leaderId: number;
+}
+
+export interface Project {
+  id: number;
+  name: string;
+  thumbnail: string | null;
+  body: string;
+  public: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  teamId: number;
+  leaderId: number;
+  recruitmentId: number | null;
+}
+
+export interface StudyGroup {
+  id: number;
+  name: string;
+  thumbnail: string | null;
+  body: string;
+  public: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  teamId: number;
+  leaderId: number;
+  recruitmentId: number | null;
 }
 
 export interface Tokens {

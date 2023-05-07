@@ -36,7 +36,6 @@ function UserProfilePage() {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { req, res } = ctx;
   const username = ctx.params?.username as string;
-  const tab = ctx.query.tab as string;
 
   const { cookies } = req;
   if (!cookies.access_token) {
@@ -62,7 +61,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   await queryClient.prefetchQuery([queryKey.CURRENT_USER], getMyAccount, {});
   await queryClient.prefetchQuery(
     queryKey.USER(username.substring(1)),
-    () => getUserProfile(username.substring(1), tab),
+    () => getUserProfile(username.substring(1)),
     {},
   );
 

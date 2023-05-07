@@ -21,7 +21,8 @@ function UserProfile() {
   const [nowTab, setNowTab] = useState<string>(
     (router.query.tab as string) ?? 'projects',
   );
-  const { data: userData } = useUserProfile(username as string, nowTab);
+
+  const { data: userData } = useUserProfile(username as string);
 
   const renderedTab = useMemo(() => {
     const activeStyle: CSSProperties = {
@@ -45,28 +46,45 @@ function UserProfile() {
     });
   }, [nowTab, router.asPath]);
 
-  const switchContent = () => {
+  const renderedEmptyContent = useMemo(() => {
     switch (nowTab) {
       case 'projects':
-        return userData?.projects;
+        return <EmptyList message="진행중인 프로젝트가 없습니다." />;
       case 'teams':
-        return userData?.teams;
+        return <EmptyList message="소속된 팀이 없습니다." />;
       case 'studyGroups':
-        return userData?.studyGroups;
+        return <EmptyList message="소속된 스터디가 없습니다." />;
       default:
-        return [];
+        return <EmptyList message="진행중인 프로젝트가 없습니다." />;
     }
-  };
+  }, [nowTab]);
 
   const renderedContent = useMemo(() => {
-    if (switchContent().length <= 0) {
-      return <EmptyList />;
-    }
+    if (!userData) return renderedEmptyContent;
 
-    return switchContent().map((content: any) => {
-      return <div key={content.id}>{content.name}</div>;
-    });
-  }, [switchContent]);
+    switch (nowTab) {
+      case 'projects':
+        return userData['projects'].length <= 0
+          ? renderedEmptyContent
+          : userData['projects'].map((project) => {
+              return <div key={project.id}>{project.name}</div>;
+            });
+      case 'teams':
+        return userData['teams'].length <= 0
+          ? renderedEmptyContent
+          : userData['teams'].map((team) => {
+              return <div key={team.id}>{team.name}</div>;
+            });
+      case 'studyGroups':
+        return userData['studyGroups'].length <= 0
+          ? renderedEmptyContent
+          : userData['studyGroups'].map((studyGroup) => {
+              return <div key={studyGroup.id}>{studyGroup.name}</div>;
+            });
+      default:
+        return renderedEmptyContent;
+    }
+  }, [nowTab, userData]);
 
   useEffect(() => {
     setNowTab((router.query.tab as string) ?? 'projects');
