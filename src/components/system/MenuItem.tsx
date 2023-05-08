@@ -12,6 +12,7 @@ interface Props {
   icon?: React.ReactNode;
   hasArrow?: boolean;
   onClick?: () => void;
+  onClose?: () => void;
   rightText?: string;
 }
 
@@ -22,8 +23,9 @@ function MenuItem({
   onClick,
   hasArrow = false,
   rightText,
+  onClose,
 }: Props) {
-  const { pathname } = useRouter();
+  const { pathname, asPath } = useRouter();
 
   if (link === '/logout') {
     return (
@@ -44,7 +46,7 @@ function MenuItem({
 
   return (
     <Block isActive={pathname === link}>
-      <StyledLink href={link}>
+      <StyledLink href={link} onClick={onClose}>
         <LeftBox>
           {icon ? icon : null}
           {name}

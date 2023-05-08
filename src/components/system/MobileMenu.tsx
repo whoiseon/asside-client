@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { themedPalette } from '@/styles/palette';
 import Input from '@/components/system/Input';
 import SearchIcon from '@/assets/vectors/search-icon.svg';
-import { useState, MouseEvent } from 'react';
+import { useState, MouseEvent, useEffect } from 'react';
 import MenuItem from '@/components/system/MenuItem';
 import HomeIcon from '@/assets/vectors/home-icon.svg';
 import ProjectIcon from '@/assets/vectors/project-icon.svg';
@@ -74,6 +74,7 @@ function MobileMenu({ onToggleMenu }: Props) {
                 name={item.name}
                 icon={item.icon}
                 link={item.link}
+                onClose={onToggleMenu}
               />
             );
           })}
@@ -90,12 +91,14 @@ function MobileMenu({ onToggleMenu }: Props) {
               link={`@${userData.username}`}
               icon={<UserProfileIcon />}
               rightText={userData.username}
+              onClose={onToggleMenu}
               hasArrow
             />
             <MenuItem
               name="개인 설정"
               link="/setting"
               icon={<SettingIcon />}
+              onClose={onToggleMenu}
               hasArrow
             />
             <MenuItem
@@ -103,6 +106,7 @@ function MobileMenu({ onToggleMenu }: Props) {
               link="/logout"
               icon={<LogOutIcon />}
               onClick={onLogout}
+              onClose={onToggleMenu}
               hasArrow
             />
           </List>

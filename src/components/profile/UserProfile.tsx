@@ -22,7 +22,7 @@ function UserProfile() {
     (router.query.tab as string) ?? 'projects',
   );
 
-  const { data: userData } = useUserProfile(username as string);
+  const { data: userData } = useUserProfile((username as string)?.substring(1));
 
   const renderedTab = useMemo(() => {
     const activeStyle: CSSProperties = {
