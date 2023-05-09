@@ -13,7 +13,6 @@ import { queryKey } from '@/lib/queryKey';
 export default function Home() {
   const { data } = useMyAccount();
   const [nowTheme, toggleTheme] = useToggleTheme();
-  useThemeEffect();
 
   return (
     <>

@@ -5,6 +5,7 @@ import { themedPalette } from '@/styles/palette';
 import { useRouter } from 'next/router';
 import { css } from '@emotion/react';
 import RightArrowIcon from '@/assets/vectors/right-arrow-icon.svg';
+import useMyAccount from '@/lib/hooks/useMyAccount';
 
 interface Props {
   name: string;
@@ -25,7 +26,12 @@ function MenuItem({
   rightText,
   onClose,
 }: Props) {
+  const { data: userData } = useMyAccount();
   const { pathname, asPath } = useRouter();
+
+  const isProfilePage =
+    decodeURIComponent(asPath.split('@')[1]) === userData?.username &&
+    link === `@${userData?.username}`;
 
   if (link === '/logout') {
     return (
@@ -45,7 +51,7 @@ function MenuItem({
   }
 
   return (
-    <Block isActive={pathname === link}>
+    <Block isActive={pathname === link || isProfilePage}>
       <StyledLink href={link} onClick={onClose}>
         <LeftBox>
           {icon ? icon : null}

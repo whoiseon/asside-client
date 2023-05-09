@@ -7,7 +7,6 @@ import { clearClientCookie, setClientCookie } from '@/lib/client';
 import { dehydrate, QueryClient } from '@tanstack/query-core';
 import { queryKey } from '@/lib/queryKey';
 import { getMyAccount } from '@/lib/apis/auth';
-import { getUserProfile } from '@/lib/apis/user';
 
 function Setting() {
   const { data: meData } = useMyAccount();
