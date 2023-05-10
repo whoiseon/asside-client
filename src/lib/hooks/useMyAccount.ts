@@ -9,7 +9,6 @@ export default function useMyAccount() {
     queryFn: getMyAccount,
     refetchOnWindowFocus: true,
     retry: false,
-    staleTime: 1000 * 60 * 5, // 10 minutes
   });
 
   return myAccount;

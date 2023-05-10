@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import useMyAccount from '@/lib/hooks/useMyAccount';
 import BasicLayout from '@/components/layouts/BasicLayout';
-import UserAccount from '@/components/setting/UserAccount';
+import UserSetting from '@/components/setting/UserSetting';
 import { GetServerSideProps } from 'next';
 import { clearClientCookie, setClientCookie } from '@/lib/client';
 import { dehydrate, QueryClient } from '@tanstack/query-core';
@@ -16,7 +16,7 @@ function Setting() {
         <title>{meData?.username} 님의 계정 - asside</title>
       </Head>
       <BasicLayout>
-        <UserAccount />
+        <UserSetting />
       </BasicLayout>
     </>
   );
