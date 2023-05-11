@@ -8,7 +8,7 @@ import { getMyAccount } from '@/lib/apis/auth';
 import BasicLayout from '@/components/layouts/BasicLayout';
 import UserProfile from '@/components/profile/UserProfile';
 import { useThemeEffect } from '@/lib/hooks/useThemeEffect';
-import { getUserProfile } from '@/lib/apis/user';
+import { getUserContents, getUserProfile } from '@/lib/apis/user';
 import { useRouter } from 'next/router';
 
 function UserProfilePage() {
@@ -33,8 +33,9 @@ function UserProfilePage() {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const queryClient = new QueryClient();
   const { req, res } = ctx;
-  const username = ctx.params?.username as string;
+  const { tab, username } = ctx.query as { tab: string; username: string };
 
   const { cookies } = req;
   if (!cookies.access_token) {
@@ -48,7 +49,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 
   clearClientCookie();
-  const queryClient = new QueryClient();
   const cookie = req ? req.headers.cookie : '';
   if (!cookie) {
     return {
@@ -57,10 +57,17 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 
   setClientCookie(cookie);
-  await queryClient.prefetchQuery([queryKey.CURRENT_USER], getMyAccount, {});
+  await queryClient.prefetchQuery(queryKey.CURRENT_USER, getMyAccount, {});
+
   await queryClient.prefetchQuery(
     queryKey.USER(username.substring(1)),
     () => getUserProfile(username.substring(1)),
+    {},
+  );
+
+  await queryClient.prefetchQuery(
+    queryKey.USER_CONTENTS(tab, username.substring(1)),
+    () => getUserContents(tab, username.substring(1)),
     {},
   );
 

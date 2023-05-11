@@ -11,7 +11,6 @@ import { useInput } from '@/lib/hooks/useInput';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateUserProfile } from '@/lib/apis/user';
-import { queryKey } from '@/lib/queryKey';
 import { useRouter } from 'next/router';
 
 function UserProfileCard() {

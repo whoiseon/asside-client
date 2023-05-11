@@ -46,7 +46,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 
   setClientCookie(cookie);
-  await queryClient.prefetchQuery([queryKey.CURRENT_USER], getMyAccount, {});
+  await queryClient.prefetchQuery(queryKey.CURRENT_USER, getMyAccount, {});
 
   return {
     props: {

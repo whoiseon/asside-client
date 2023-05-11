@@ -1,5 +1,11 @@
 import { client } from '@/lib/client';
-import { UserProfileParams, UserProfileResult } from '@/lib/apis/types';
+import {
+  Project,
+  StudyGroup,
+  Team,
+  UserProfileParams,
+  UserProfileResult,
+} from '@/lib/apis/types';
 
 export async function getUserProfile(username: string) {
   const response = await client.get<UserProfileResult>(
@@ -17,4 +23,37 @@ export async function updateUserProfile(params: UserProfileParams) {
   });
 
   return response.data;
+}
+
+export async function getUserContents(type: string, username: string) {
+  switch (type) {
+    case 'projects': {
+      const response = await client.get<Project[]>(
+        `/api/user/projects?username=${username}`,
+      );
+
+      return response.data;
+    }
+    case 'teams': {
+      const response = await client.get<Team[]>(
+        `/api/user/teams?username=${username}`,
+      );
+
+      return response.data;
+    }
+    case 'studyGroups': {
+      const response = await client.get<StudyGroup[]>(
+        `/api/user/studygroups?username=${username}`,
+      );
+
+      return response.data;
+    }
+    default: {
+      const response = await client.get<Project[]>(
+        `/api/user/projects?username=${username}`,
+      );
+
+      return response.data;
+    }
+  }
 }

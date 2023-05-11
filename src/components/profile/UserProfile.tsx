@@ -5,6 +5,10 @@ import Button from '@/components/system/Button';
 import useUserProfile from '@/lib/hooks/useUserProfile';
 import { useRouter } from 'next/router';
 import { CSSProperties, useEffect, useMemo, useState } from 'react';
+import { queryKey } from '@/lib/queryKey';
+import { getUserContents } from '@/lib/apis/user';
+import { useQuery } from '@tanstack/react-query';
+import { useUserContents } from '@/lib/hooks/useUserContents';
 import EmptyList from '@/components/system/EmptyList';
 
 const tabMaps = [
@@ -23,6 +27,23 @@ function UserProfile() {
   );
 
   const { data: userData } = useUserProfile((username as string)?.substring(1));
+  const { data: userContentData } = useUserContents(
+    nowTab,
+    (username as string)?.substring(1),
+  );
+
+  const emptyMessage = useMemo(() => {
+    switch (nowTab) {
+      case 'projects':
+        return '프로젝트가 없습니다.';
+      case 'teams':
+        return '팀이 없습니다.';
+      case 'studyGroups':
+        return '스터디가 없습니다.';
+      default:
+        return '프로젝트가 없습니다.';
+    }
+  }, [nowTab]);
 
   const renderedTab = useMemo(() => {
     const activeStyle: CSSProperties = {
@@ -46,45 +67,11 @@ function UserProfile() {
     });
   }, [nowTab, router.asPath]);
 
-  const renderedEmptyContent = useMemo(() => {
-    switch (nowTab) {
-      case 'projects':
-        return <EmptyList message="진행중인 프로젝트가 없습니다." />;
-      case 'teams':
-        return <EmptyList message="소속된 팀이 없습니다." />;
-      case 'studyGroups':
-        return <EmptyList message="소속된 스터디가 없습니다." />;
-      default:
-        return <EmptyList message="진행중인 프로젝트가 없습니다." />;
-    }
-  }, [nowTab]);
+  const renderedContents = useMemo(() => {
+    if (!userContentData) return null;
 
-  const renderedContent = useMemo(() => {
-    if (!userData) return renderedEmptyContent;
-
-    switch (nowTab) {
-      case 'projects':
-        return userData['projects'].length <= 0
-          ? renderedEmptyContent
-          : userData['projects'].map((project) => {
-              return <div key={project.id}>{project.name}</div>;
-            });
-      case 'teams':
-        return userData['teams'].length <= 0
-          ? renderedEmptyContent
-          : userData['teams'].map((team) => {
-              return <div key={team.id}>{team.name}</div>;
-            });
-      case 'studyGroups':
-        return userData['studyGroups'].length <= 0
-          ? renderedEmptyContent
-          : userData['studyGroups'].map((studyGroup) => {
-              return <div key={studyGroup.id}>{studyGroup.name}</div>;
-            });
-      default:
-        return renderedEmptyContent;
-    }
-  }, [nowTab, userData]);
+    return <EmptyList message={emptyMessage} />;
+  }, [userContentData]);
 
   useEffect(() => {
     setNowTab((router.query.tab as string) ?? 'projects');
@@ -116,7 +103,7 @@ function UserProfile() {
       </ProfileBox>
       <ContentBox>
         <TabList>{renderedTab}</TabList>
-        {renderedContent}
+        {renderedContents}
       </ContentBox>
     </Block>
   );

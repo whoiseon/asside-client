@@ -22,7 +22,6 @@ function Login() {
       setLoginError('');
     },
     onSuccess: (data) => {
-      console.log(data);
       queryClient.refetchQueries(['me']);
       dispatch(
         setUser({

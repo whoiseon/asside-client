@@ -5,7 +5,7 @@ import { User } from '@/lib/apis/types';
 
 export default function useMyAccount() {
   const myAccount = useQuery<User>({
-    queryKey: [queryKey.CURRENT_USER],
+    queryKey: queryKey.CURRENT_USER,
     queryFn: getMyAccount,
     refetchOnWindowFocus: true,
     retry: false,

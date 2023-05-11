@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import { useThemeEffect } from '@/lib/hooks/useThemeEffect';
 import { useToggleTheme } from '@/lib/hooks/useToggleTheme';
 import BasicLayout from '@/components/layouts/BasicLayout';
 import { GetServerSideProps } from 'next';
@@ -32,10 +31,10 @@ export default function Home() {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const queryClient = new QueryClient();
   clearClientCookie();
 
   const { req, res } = ctx;
-  const queryClient = new QueryClient();
   const cookie = req ? req.headers.cookie : '';
   if (!cookie) {
     return {
@@ -44,7 +43,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 
   setClientCookie(cookie);
-  await queryClient.prefetchQuery([queryKey.CURRENT_USER], getMyAccount, {});
+  await queryClient.prefetchQuery(queryKey.CURRENT_USER, getMyAccount, {});
 
   return {
     props: {
