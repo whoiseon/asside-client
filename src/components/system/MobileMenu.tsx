@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { themedPalette } from '@/styles/palette';
 import Input from '@/components/system/Input';
 import SearchIcon from '@/assets/vectors/search-icon.svg';
-import { useState, MouseEvent, useEffect } from 'react';
+import { useState, MouseEvent, useEffect, useMemo } from 'react';
 import MenuItem from '@/components/system/MenuItem';
 import HomeIcon from '@/assets/vectors/home-icon.svg';
 import ProjectIcon from '@/assets/vectors/project-icon.svg';
@@ -50,6 +50,20 @@ function MobileMenu({ onToggleMenu }: Props) {
     },
   });
 
+  const renderedCommonMenu = useMemo(() => {
+    return commonMenuLinks.map((item) => {
+      return (
+        <MenuItem
+          key={item.name}
+          name={item.name}
+          icon={item.icon}
+          link={item.link}
+          onClose={onToggleMenu}
+        />
+      );
+    });
+  }, [commonMenuLinks]);
+
   const onLogout = () => {
     mutate();
   };
@@ -66,19 +80,7 @@ function MobileMenu({ onToggleMenu }: Props) {
         />
       </SearchGroup>
       <MenuGroup>
-        <List>
-          {commonMenuLinks.map((item) => {
-            return (
-              <MenuItem
-                key={item.name}
-                name={item.name}
-                icon={item.icon}
-                link={item.link}
-                onClose={onToggleMenu}
-              />
-            );
-          })}
-        </List>
+        <List>{renderedCommonMenu}</List>
       </MenuGroup>
       {userData ? (
         <MenuGroup>

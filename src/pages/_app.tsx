@@ -8,7 +8,6 @@ import storage from '@/lib/storage';
 import { QueryClient } from '@tanstack/query-core';
 import { Hydrate, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { GetServerSideProps } from 'next';
 
 export default function App({ Component, pageProps }: AppProps) {
   const { store, props } = wrapper.useWrappedStore(pageProps);

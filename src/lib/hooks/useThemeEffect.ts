@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSystemTheme } from '@/modules/darkMode';
 import { RootState } from '@/modules/core/reducers';

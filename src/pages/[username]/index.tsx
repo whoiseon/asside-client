@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import useMyAccount from '@/lib/hooks/useMyAccount';
 import { GetServerSideProps } from 'next';
 import { clearClientCookie, setClientCookie } from '@/lib/client';
 import { dehydrate, QueryClient } from '@tanstack/query-core';
@@ -66,8 +65,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   );
 
   await queryClient.prefetchQuery(
-    queryKey.USER_CONTENTS(tab, username.substring(1)),
-    () => getUserContents(tab, username.substring(1)),
+    queryKey.USER_CONTENTS(tab || 'projects', username.substring(1)),
+    () => getUserContents(tab || 'projects', username.substring(1)),
     {},
   );
 

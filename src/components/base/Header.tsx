@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { themedPalette } from '@/styles/palette';
 import Logo from '@/assets/vectors/logo.svg';
-import React from 'react';
+import React, { memo } from 'react';
 import HeaderMenuButton from '@/components/base/HeaderMenuButton';
 import HeaderBackButton from '@/components/base/HeaderBackButton';
 import { useGoBack } from '@/lib/hooks/useGoback';
@@ -82,4 +82,4 @@ const Right = styled.div`
   }
 `;
 
-export default Header;
+export default memo(Header);

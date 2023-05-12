@@ -44,8 +44,8 @@ function UserProfileCard() {
     onSuccess: () => {
       console.log('변경완료');
       queryClient.refetchQueries(['user', username]);
+      queryClient.refetchQueries(['me']);
       refetch().then((data) => {
-        console.log(data);
         router.push(`/@${username}`);
       });
     },

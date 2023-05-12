@@ -1,7 +1,7 @@
 import FullHeightPage from '@/components/system/FullHeightPage';
 import Header from '@/components/base/Header';
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { memo } from 'react';
 import { useThemeEffect } from '@/lib/hooks/useThemeEffect';
 
 interface Props {
@@ -28,4 +28,4 @@ const Content = styled.main`
   overflow-x: hidden;
 `;
 
-export default BasicLayout;
+export default memo(BasicLayout);

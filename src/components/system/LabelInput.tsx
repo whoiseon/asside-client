@@ -1,8 +1,7 @@
 import styled from '@emotion/styled';
 import Input, { type Props as InputProps } from '@/components/system/Input';
 import { themedPalette } from '@/styles/palette';
-import React, { useState } from 'react';
-import CheckBox from '@/components/system/CheckBox';
+import React, { memo, useState } from 'react';
 
 interface Props extends InputProps {
   label: string;
@@ -43,4 +42,4 @@ const Label = styled.label<{ focused?: boolean }>`
     focused ? themedPalette.primary1 : themedPalette.text2};
 `;
 
-export default LabelInput;
+export default memo(LabelInput);

@@ -5,9 +5,6 @@ import Button from '@/components/system/Button';
 import useUserProfile from '@/lib/hooks/useUserProfile';
 import { useRouter } from 'next/router';
 import { CSSProperties, useEffect, useMemo, useState } from 'react';
-import { queryKey } from '@/lib/queryKey';
-import { getUserContents } from '@/lib/apis/user';
-import { useQuery } from '@tanstack/react-query';
 import { useUserContents } from '@/lib/hooks/useUserContents';
 import EmptyList from '@/components/system/EmptyList';
 
@@ -28,7 +25,7 @@ function UserProfile() {
 
   const { data: userData } = useUserProfile((username as string)?.substring(1));
   const { data: userContentData } = useUserContents(
-    nowTab,
+    nowTab || 'projects',
     (username as string)?.substring(1),
   );
 
