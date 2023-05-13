@@ -44,7 +44,7 @@ function UserProfile() {
 
   const renderedTab = useMemo(() => {
     const activeStyle: CSSProperties = {
-      background: themedPalette.bg_element1,
+      background: themedPalette.bg_element2,
       color: themedPalette.text2,
     };
 

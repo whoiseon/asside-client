@@ -17,7 +17,7 @@ function UserProfileCard() {
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  const { data: myAccount, refetch } = useMyAccount();
+  const { data: myAccount } = useMyAccount();
   const { data: userData } = useUserProfile(myAccount?.username as string);
 
   const [profile, setProfile] = useState<string>('');
@@ -44,25 +44,28 @@ function UserProfileCard() {
     onSuccess: () => {
       console.log('변경완료');
       queryClient.refetchQueries(['user', username]);
-      queryClient.refetchQueries(['me']);
-      refetch().then((data) => {
+      queryClient.refetchQueries(['me']).then(() => {
         router.push(`/@${username}`);
       });
     },
   });
 
   const onSubmit = useCallback(
-    (e: FormEvent<HTMLFormElement>) => {
+    async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       if (!changedCheck()) {
         setErrorMessage('변경된 사항이 없습니다!');
         return;
       }
 
-      mutate({
-        username,
-        description,
+      await mutate({
+        username: userData?.username === username ? undefined : username,
+        description:
+          userData?.description === description ? undefined : description,
       });
+
+      console.log('meData', myAccount);
+      console.log('updated meData', queryClient.getQueryData(['me']));
     },
     [username, description],
   );
