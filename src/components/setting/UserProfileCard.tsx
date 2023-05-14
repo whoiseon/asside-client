@@ -95,7 +95,7 @@ function UserProfileCard() {
           프로필 사진 변경
         </Button>
       </ActionBox>
-      <Description>
+      <InputGroup>
         <LabelInput
           label="이름 또는 닉네임"
           value={username}
@@ -106,7 +106,7 @@ function UserProfileCard() {
           value={description}
           onChange={onChangeDescription}
         />
-      </Description>
+      </InputGroup>
     </BasicCard>
   );
 }
@@ -144,7 +144,7 @@ const ActionBox = styled.div`
   }
 `;
 
-const Description = styled.div`
+const InputGroup = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;

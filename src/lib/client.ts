@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { parseCookies } from 'nookies';
 import { refreshToken } from '@/lib/apis/auth';
 
 export const client = axios.create({
@@ -29,6 +28,8 @@ client.interceptors.response.use(
       } catch (e) {
         return Promise.reject(e);
       }
+    } else {
+      return Promise.reject(e);
     }
   },
 );
