@@ -5,6 +5,7 @@ import useMyAccount from '@/lib/hooks/useMyAccount';
 import useUserProfile from '@/lib/hooks/useUserProfile';
 import UserProfileCard from '@/components/setting/UserProfileCard';
 import UserPasswordCard from '@/components/setting/UserPasswordCard';
+import UserEmailCard from '@/components/setting/UserEmailCard';
 
 function UserSetting() {
   const { data: myAccount } = useMyAccount();
@@ -17,6 +18,7 @@ function UserSetting() {
       </Title>
       <SettingBox>
         <UserProfileCard />
+        <UserEmailCard />
         <UserPasswordCard />
       </SettingBox>
     </Block>

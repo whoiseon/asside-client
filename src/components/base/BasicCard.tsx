@@ -10,6 +10,8 @@ interface Props {
   children: ReactNode;
   onSubmit?: (e: FormEvent<HTMLFormElement>) => void;
   errorMessage?: string | null;
+  description?: string;
+  buttonText?: string;
 }
 
 function BasicCard({
@@ -19,6 +21,8 @@ function BasicCard({
   icon,
   onSubmit,
   errorMessage = null,
+  description,
+  buttonText = '저장',
 }: Props) {
   if (type === 'form') {
     return (
@@ -29,11 +33,12 @@ function BasicCard({
             <p>{title}</p>
           </Title>
         ) : undefined}
+        {description ? <Description>{description}</Description> : null}
         <Content>{children}</Content>
         <FormActionBox>
           <ErrorMessage>{errorMessage ? errorMessage : undefined}</ErrorMessage>
           <Button size="small" variant="primary">
-            저장
+            {buttonText}
           </Button>
         </FormActionBox>
       </StyledFormCard>
@@ -105,6 +110,15 @@ const ErrorMessage = styled.div`
   // TODO: add animation
   color: ${themedPalette.destructive1};
   font-weight: bold;
+`;
+
+const Description = styled.div`
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 14px;
+  color: ${themedPalette.text2};
+  margin-top: 4px;
+  margin-bottom: 8px;
 `;
 
 export default BasicCard;
