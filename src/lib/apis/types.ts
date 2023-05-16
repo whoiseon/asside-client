@@ -29,6 +29,7 @@ export interface UserProfileResult extends User {
   updatedAt: string;
   profile: string | null;
   description: string | null;
+  emailVerified: boolean;
 }
 
 export interface User {
