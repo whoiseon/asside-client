@@ -2,9 +2,10 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { themedPalette } from '@/styles/palette';
 import { RegisterOptions } from 'react-hook-form';
+import { css } from '@emotion/react';
 
 export interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
-  mode?: 'default' | 'search';
+  mode?: 'default' | 'search' | 'danger';
   register?: any;
   option?: RegisterOptions;
   errors?: any;
@@ -24,10 +25,10 @@ function Input({ mode = 'default', errors, register, option, ...rest }: Props) {
     );
   }
 
-  return <StyledInput {...rest} />;
+  return <StyledInput mode={mode} {...rest} />;
 }
 
-const StyledInput = styled.input`
+const StyledInput = styled.input<{ mode?: 'default' | 'search' | 'danger' }>`
   height: 48px;
   border: 1px solid ${themedPalette.border4};
   border-radius: 4px;
@@ -51,6 +52,14 @@ const StyledInput = styled.input`
     background-color: ${themedPalette.bg_page};
     color: ${themedPalette.text4};
   }
+
+  ${({ mode }) =>
+    mode === 'danger' &&
+    css`
+      &:focus {
+        border: 1px solid ${themedPalette.destructive1};
+      }
+    `}
 `;
 
 const StyledSearchInput = styled(StyledInput)`

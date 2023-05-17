@@ -2,6 +2,8 @@ import { FormEvent, ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { themedPalette } from '@/styles/palette';
 import Button from '@/components/system/Button';
+import { css } from '@emotion/react';
+import { media } from '@/lib/media';
 
 interface Props {
   type?: 'basic' | 'form';
@@ -12,6 +14,7 @@ interface Props {
   errorMessage?: string | null;
   description?: string;
   buttonText?: string;
+  isDanger?: boolean;
 }
 
 function BasicCard({
@@ -23,12 +26,13 @@ function BasicCard({
   errorMessage = null,
   description,
   buttonText = '저장',
+  isDanger = false,
 }: Props) {
   if (type === 'form') {
     return (
-      <StyledFormCard onSubmit={onSubmit}>
+      <StyledFormCard onSubmit={onSubmit} isDanger={isDanger}>
         {title ? (
-          <Title>
+          <Title isDanger={isDanger}>
             {icon ? icon : null}
             <p>{title}</p>
           </Title>
@@ -46,9 +50,9 @@ function BasicCard({
   }
 
   return (
-    <StyledCard>
+    <StyledCard isDanger={isDanger}>
       {title ? (
-        <Title>
+        <Title isDanger={isDanger}>
           {icon ? icon : null}
           <p>{title}</p>
         </Title>
@@ -58,21 +62,43 @@ function BasicCard({
   );
 }
 
-const StyledCard = styled.div`
+const StyledCard = styled.div<{ isDanger?: boolean }>`
   background-color: ${themedPalette.bg_element1};
   border: 1px solid ${themedPalette.border4};
   border-radius: 4px;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+
+  ${({ isDanger }) =>
+    isDanger &&
+    css`
+      border: 1px solid ${themedPalette.destructive1};
+
+      button {
+        background-color: ${themedPalette.destructive1};
+      }
+    `}
 `;
 
-const StyledFormCard = styled.form`
+const StyledFormCard = styled.form<{ isDanger?: boolean }>`
   background-color: ${themedPalette.bg_element1};
   border: 1px solid ${themedPalette.border4};
   border-radius: 4px;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+
+  ${({ isDanger }) =>
+    isDanger &&
+    css`
+      border: 1px solid ${themedPalette.destructive1};
+
+      button {
+        background-color: ${themedPalette.destructive1};
+      }
+    `}
 `;
 
-const Title = styled.div`
+const Title = styled.div<{ isDanger?: boolean }>`
   display: flex;
   align-items: center;
   gap: 8px;
@@ -87,10 +113,25 @@ const Title = styled.div`
     width: 20px;
     color: ${themedPalette.text3};
   }
+
+  ${({ isDanger }) =>
+    isDanger &&
+    css`
+      p {
+        color: ${themedPalette.destructive1};
+      }
+      svg {
+        color: ${themedPalette.destructive1};
+      }
+    `}
 `;
 
 const Content = styled.div`
-  padding: 16px 16px 32px;
+  padding: 8px 16px 32px;
+
+  ${media.mobile} {
+    padding: 16px 16px 32px;
+  }
 `;
 
 const FormActionBox = styled.div`

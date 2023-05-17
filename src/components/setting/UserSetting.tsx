@@ -6,6 +6,7 @@ import useUserProfile from '@/lib/hooks/useUserProfile';
 import UserProfileCard from '@/components/setting/UserProfileCard';
 import UserPasswordCard from '@/components/setting/UserPasswordCard';
 import UserEmailCard from '@/components/setting/UserEmailCard';
+import UserDangerCard from '@/components/setting/UserDangerCard';
 
 function UserSetting() {
   const { data: myAccount } = useMyAccount();
@@ -20,6 +21,7 @@ function UserSetting() {
         <UserProfileCard />
         <UserEmailCard />
         <UserPasswordCard />
+        <UserDangerCard />
       </SettingBox>
     </Block>
   );
@@ -42,7 +44,7 @@ const SettingBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 32px;
-  padding: 16px;
+  padding: 16px 16px 48px;
 `;
 
 export default UserSetting;

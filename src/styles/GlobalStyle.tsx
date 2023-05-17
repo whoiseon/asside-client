@@ -42,6 +42,9 @@ const styles = css`
   textarea {
     font-family: inherit;
   }
+  p {
+    margin: 0;
+  }
   ul,
   li {
     margin: 0;
