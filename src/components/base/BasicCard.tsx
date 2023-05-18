@@ -4,6 +4,7 @@ import { themedPalette } from '@/styles/palette';
 import Button from '@/components/system/Button';
 import { css } from '@emotion/react';
 import { media } from '@/lib/media';
+import transitions from '@/styles/transitions';
 
 interface Props {
   type?: 'basic' | 'form';
@@ -148,9 +149,9 @@ const FormActionBox = styled.div`
 `;
 
 const ErrorMessage = styled.div`
-  // TODO: add animation
   color: ${themedPalette.destructive1};
   font-weight: bold;
+  animation: ${transitions.errorBounce} 0.4s ease-in-out;
 `;
 
 const Description = styled.div`

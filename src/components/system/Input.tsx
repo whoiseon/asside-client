@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { themedPalette } from '@/styles/palette';
 import { RegisterOptions } from 'react-hook-form';
 import { css } from '@emotion/react';
+import transitions from '@/styles/transitions';
 
 export interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   mode?: 'default' | 'search' | 'danger';
@@ -75,6 +76,7 @@ const ErrorMessage = styled.p`
   margin-bottom: 0;
   font-size: 14px;
   color: ${themedPalette.destructive1};
+  animation: ${transitions.errorBounce} 0.4s ease-in-out;
 `;
 
 export default Input;

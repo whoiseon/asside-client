@@ -219,6 +219,7 @@ const ErrorMessage = styled.p`
   margin-bottom: 0;
   font-size: 16px;
   color: ${themedPalette.destructive1};
+  animation: ${transitions.errorBounce} 0.4s ease-in-out;
 `;
 
 export default AuthForm;
