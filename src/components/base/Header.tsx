@@ -26,9 +26,9 @@ function Header({
 
   if (mode === 'onlyBack') {
     return (
-      <BackBlock>
+      <ActionBox>
         <HeaderBackButton onClick={goBack} />
-      </BackBlock>
+      </ActionBox>
     );
   }
 
@@ -59,7 +59,7 @@ const Block = styled.nav`
   }
 `;
 
-const BackBlock = styled.nav`
+const ActionBox = styled.nav`
   display: flex;
   align-items: center;
   height: 60px;
